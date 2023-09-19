@@ -38,9 +38,9 @@ get_arch_and_environment() {
 
 	if [[ $environment == "darwin" ]]; then
 		if [[ $arch != "x86_64" ]] && [[ $arch != "aarch64" ]]; then
-			echo "$(arch)"-apple-"$environment"
-		else
 			echo "macos-universal"
+		else
+			echo "$(arch)"-apple-"$environment"
 		fi
 	elif [[ $environment == "linux" ]]; then
 		echo "$(arch)"-unknown-"$environment"-gnu
