@@ -34,18 +34,19 @@ list_all_versions() {
 
 get_arch_and_environment() {
 	local -r environment=$(uname | tr '[:upper:]' '[:lower:]')
+	local -r arch=$(arch)
 
-	case $environment in
-	darwin*)
-		echo "$(arch)"-apple-"$environment"
-		;;
-	linux*)
+	if [[ $environment == "darwin" ]]; then
+		if [[ $arch != "x86_64" ]] && [[ $arch != "aarch64" ]]; then
+			echo "$(arch)"-apple-"$environment"
+		else
+			echo "macos-universal"
+		fi
+	elif [[ $environment == "linux" ]]; then
 		echo "$(arch)"-unknown-"$environment"
-		;;
-	*)
+	else
 		fail "unknown environment brand for $environment"
-		;;
-	esac
+	fi
 }
 
 get_release_name() {
