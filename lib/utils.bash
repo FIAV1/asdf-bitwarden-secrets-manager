@@ -43,7 +43,7 @@ get_arch_and_environment() {
 			echo "macos-universal"
 		fi
 	elif [[ $environment == "linux" ]]; then
-		echo "$(arch)"-unknown-"$environment"
+		echo "$(arch)"-unknown-"$environment"-gnu
 	else
 		fail "unknown environment brand for $environment"
 	fi
