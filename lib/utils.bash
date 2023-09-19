@@ -64,8 +64,6 @@ download_release() {
 
 	url="$GH_REPO/releases/download/$(get_release_name "$version")/bws-$(get_arch_and_environment)-$version.zip"
 
-	echo "$url"
-
 	echo "* Downloading $TOOL_NAME release $version..."
 	curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
 }
