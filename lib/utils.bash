@@ -25,11 +25,35 @@ sort_versions() {
 list_github_tags() {
 	git ls-remote --tags --refs "$GH_REPO" |
 		grep -o 'refs/tags/.*' | cut -d/ -f3- |
-		sed 's/^v//'
+		sed 's/^bws-v//' | sed 's/^bws-cli-v//' # NOTE: You might want to adapt this sed to remove non-version strings from tags
 }
 
 list_all_versions() {
 	list_github_tags
+}
+
+get_arch_and_environment() {
+	local -r environment=$(uname | tr '[:upper:]' '[:lower:]')
+
+	case $environment in
+	darwin*)
+		echo "$(arch)"-apple-"$environment"
+		;;
+	linux*)
+		echo "$(arch)"-unknown-"$environment"
+		;;
+	*)
+		fail "unknown environment brand for $environment"
+		;;
+	esac
+}
+
+get_release_name() {
+	local -r version=$1
+
+	git ls-remote --tags --refs "$GH_REPO" |
+		grep -o 'refs/tags/.*' | cut -d/ -f3- |
+		grep "$version"
 }
 
 download_release() {
@@ -37,7 +61,7 @@ download_release() {
 	version="$1"
 	filename="$2"
 
-	url="$GH_REPO/archive/v${version}.tar.gz"
+	url="$GH_REPO/releases/download/$(get_release_name "$version")/bws-$(get_arch_and_environment)-$version.zip"
 
 	echo "* Downloading $TOOL_NAME release $version..."
 	curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
