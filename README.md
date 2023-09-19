@@ -43,7 +43,7 @@ asdf install secrets-manager latest
 asdf global secrets-manager latest
 
 # Now secrets-manager commands are available
-secrets-manager --help
+bws --help
 ```
 
 Check [asdf](https://github.com/asdf-vm/asdf) readme for more instructions on how to
