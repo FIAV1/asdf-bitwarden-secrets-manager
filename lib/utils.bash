@@ -3,7 +3,7 @@
 set -euo pipefail
 
 GH_REPO="https://github.com/bitwarden/sdk"
-TOOL_NAME="secrets-manager"
+TOOL_NAME="bitwarden-secrets-manager"
 TOOL_TEST="bws --help"
 
 fail() {
@@ -25,7 +25,7 @@ sort_versions() {
 list_github_tags() {
 	git ls-remote --tags --refs "$GH_REPO" |
 		grep -o 'refs/tags/.*' | cut -d/ -f3- |
-		sed 's/^bws-v//' | sed 's/^bws-cli-v//' # NOTE: You might want to adapt this sed to remove non-version strings from tags
+		sed 's/^bws-v//' | sed 's/^bws-cli-v//'
 }
 
 list_all_versions() {
